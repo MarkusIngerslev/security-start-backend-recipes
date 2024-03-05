@@ -55,5 +55,19 @@ public class RecipeService {
         original.setCategory(category);
     }
 
+    public RecipeDto editRecipe(RecipeDto request, int id) {
+        if (request.getId() != id) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You cannot change the id of an existing recipe");
+        }
+        Category category = categoryRepository.findByName(request.getCategory()).
+                orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Only existing categories are allowed"));
+
+        Recipe recipeToEdit = recipeRepository.findById(id).orElseThrow(()
+                -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe not found"));
+        updateRecipe(recipeToEdit,request, category);
+        recipeRepository.save(recipeToEdit);
+        return new RecipeDto(recipeToEdit,false);
+    }
+
 
 }
