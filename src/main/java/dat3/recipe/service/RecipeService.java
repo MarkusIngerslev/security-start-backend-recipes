@@ -4,7 +4,9 @@ import dat3.recipe.dto.RecipeDto;
 import dat3.recipe.entity.Recipe;
 import dat3.recipe.repository.CategoryRepository;
 import dat3.recipe.repository.RecipeRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -25,4 +27,8 @@ public class RecipeService {
         return recipeResponses;
     }
 
+    public RecipeDto getRecipeById(int id) {
+        Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe not found"));
+        return new RecipeDto(recipe,false);
+    }
 }
