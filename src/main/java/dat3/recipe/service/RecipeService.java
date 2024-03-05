@@ -1,8 +1,12 @@
 package dat3.recipe.service;
 
+import dat3.recipe.dto.RecipeDto;
+import dat3.recipe.entity.Recipe;
 import dat3.recipe.repository.CategoryRepository;
 import dat3.recipe.repository.RecipeRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RecipeService {
@@ -14,4 +18,11 @@ public class RecipeService {
         this.recipeRepository = recipeRepository;
         this.categoryRepository = categoryRepository;
     }
+
+    public List<RecipeDto> getAllRecipes(String category) {
+        List<Recipe> recipes = category == null ? recipeRepository.findAll() : recipeRepository.findByCategoryName(category);
+        List<RecipeDto> recipeResponses = recipes.stream().map((r) -> new RecipeDto(r,false)).toList();
+        return recipeResponses;
+    }
+
 }
