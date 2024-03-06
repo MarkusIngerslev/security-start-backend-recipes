@@ -1,8 +1,11 @@
 package dat3.recipe.service;
 
+import dat3.recipe.dto.CategoryDto;
 import dat3.recipe.entity.Category;
 import dat3.recipe.repository.CategoryRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -19,6 +22,11 @@ public class CategoryService {
         List<Category> categories =  categoryRepository.findAll();
         //Convert from list of Categories to DTO-type, list of Strings
         return categories.stream().map((c)->new String(c.getName())).toList();
+    }
+
+    public CategoryDto getCategoryById(int id) {
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
+        return new CategoryDto(category,false);
     }
 }
 
