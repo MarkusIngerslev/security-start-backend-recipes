@@ -27,8 +27,10 @@ public class CategoryController {
         return categoryService.getCategoryById(id);
     }
 
-    /*@PostMapping
-    public
-*/
+    @PostMapping
+    public CategoryDto addCategory(@RequestBody CategoryDto categoryDto) {
+        return categoryService.addCategory(categoryDto);
+    }
+
 }
 

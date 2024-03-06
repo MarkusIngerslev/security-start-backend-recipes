@@ -28,5 +28,19 @@ public class CategoryService {
         Category category = categoryRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
         return new CategoryDto(category,false);
     }
+
+    public CategoryDto addCategory(CategoryDto request) {
+        if (request.getId() != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You cannot provide the id for a new category");
+        }
+        Category newCategory = new Category();
+        updateCategory(newCategory, request);
+        categoryRepository.save(newCategory);
+        return new CategoryDto(newCategory,false);
+    }
+
+    private void updateCategory(Category original, CategoryDto c) {
+        original.setName(c.getName());
+    }
 }
 
