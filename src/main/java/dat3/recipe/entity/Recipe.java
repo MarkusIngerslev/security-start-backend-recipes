@@ -29,6 +29,7 @@ public class Recipe {
     private String thumb;
     private String youTube;
     private String source;
+    private String owner;
 
     @CreationTimestamp
     private LocalDateTime created;

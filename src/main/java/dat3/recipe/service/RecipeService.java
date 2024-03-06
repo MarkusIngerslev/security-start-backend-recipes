@@ -54,6 +54,7 @@ public class RecipeService {
         original.setYouTube(r.getYouTube());
         original.setSource(r.getSource());
         original.setCategory(category);
+        original.setOwner(r.getOwner());
     }
 
     public RecipeDto editRecipe(RecipeDto request, int id) {
