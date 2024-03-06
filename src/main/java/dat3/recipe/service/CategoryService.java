@@ -4,6 +4,7 @@ import dat3.recipe.dto.CategoryDto;
 import dat3.recipe.entity.Category;
 import dat3.recipe.repository.CategoryRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -41,6 +42,24 @@ public class CategoryService {
 
     private void updateCategory(Category original, CategoryDto c) {
         original.setName(c.getName());
+    }
+
+    public CategoryDto editCategory(CategoryDto request, int id) {
+        if (request.getId() != id) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You cannot change the id of a category");
+        }
+        Category categoryToEdit = categoryRepository.findById(id).orElseThrow(()
+                -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
+        updateCategory(categoryToEdit, request);
+        categoryRepository.save(categoryToEdit);
+        return new CategoryDto(categoryToEdit,false);
+    }
+
+    public ResponseEntity deleteCategory(int id) {
+        Category category = categoryRepository.findById(id).orElseThrow(()
+                -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
+        categoryRepository.delete(category);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
 
