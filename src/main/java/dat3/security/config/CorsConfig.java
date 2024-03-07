@@ -12,10 +12,12 @@ public class CorsConfig {
 
     //When you know the domain name for your client, add it below before deployment
     private static final String[] ALLOWED_ORIGINS = new String[] {
-            //"*",
+            "*",
             "https://example.com/",
             "http://localhost:5173",
-            "http://127.0.0.1:5173"
+            "http://127.0.0.1:5173",
+            "http://localhost:4173",
+            "https://calm-stone-0a24fb803.4.azurestaticapps.net",
     };
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
